@@ -8,7 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.mainpc.bdclassposgradsqlite.R;
 import br.com.mainpc.bdclassposgradsqlite.adapters.UserAdapter;
@@ -16,11 +20,13 @@ import br.com.mainpc.bdclassposgradsqlite.dao.UserDAO;
 import br.com.mainpc.bdclassposgradsqlite.dao.UserDAOImpl;
 import br.com.mainpc.bdclassposgradsqlite.helpers.BDSQLiteHelper;
 import br.com.mainpc.bdclassposgradsqlite.helpers.Database;
+import br.com.mainpc.bdclassposgradsqlite.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private UserAdapter adapter;
+    private List<User> userList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.user_listview);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(MainActivity.this, DetalheActivity.class)
+                        .putExtra("USER", userList.get(i)));
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         BDSQLiteHelper helper = new BDSQLiteHelper(this);
         Database db = new Database(helper);
         UserDAO dao = new UserDAOImpl();
-        adapter = new UserAdapter(this, dao.getUsers(db));
+        userList = dao.getUsers(db);
+        adapter = new UserAdapter(this, userList);
         listView.setAdapter(adapter);
     }
 

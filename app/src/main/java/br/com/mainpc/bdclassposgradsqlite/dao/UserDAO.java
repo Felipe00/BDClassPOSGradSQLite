@@ -15,4 +15,8 @@ public interface UserDAO {
     List<User> getUsers(Database database);
 
     void insertUser(User user, Database database, Context ctx);
+
+    void deleteUser(Integer id, Database database, Context ctx);
+
+    void updateUser(User user, Database database, Context ctx);
 }

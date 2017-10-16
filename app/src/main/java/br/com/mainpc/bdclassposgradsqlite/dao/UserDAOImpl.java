@@ -60,4 +60,35 @@ public class UserDAOImpl implements UserDAO {
             database.close();
         }
     }
+
+    @Override
+    public void deleteUser(Integer id, Database database, Context ctx) {
+        database.open();
+        try {
+            database.get().execSQL("delete from users where id='" + id + "'");
+            Toast.makeText(ctx, "Registro apagado com sucesso!", Toast.LENGTH_SHORT).show();
+            ((Activity) ctx).finish();
+        } catch (Exception e) {
+            Toast.makeText(ctx, "Não foi possível apagar o registro", Toast.LENGTH_SHORT).show();
+        }
+        database.close();
+    }
+
+    @Override
+    public void updateUser(User user, Database database, Context ctx) {
+        ContentValues cv = new ContentValues();
+        database.open();
+        try {
+            cv.put("name", user.getName());
+            cv.put("height", user.getHeight());
+            database.get().update("users", cv, "id=" + user.getId(), null);
+            Toast.makeText(ctx, "Alterado com sucesso!", Toast.LENGTH_SHORT).show();
+            ((Activity) ctx).finish();
+        } catch (Exception e) {
+            e.getCause();
+            Toast.makeText(ctx, "Falha ao alterar o registro", Toast.LENGTH_SHORT).show();
+        } finally {
+            database.close();
+        }
+    }
 }

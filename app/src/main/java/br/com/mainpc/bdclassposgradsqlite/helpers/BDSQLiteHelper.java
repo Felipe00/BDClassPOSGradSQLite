@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BDSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "user_db";
     final String CREATE_TABLE = "CREATE TABLE users (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +

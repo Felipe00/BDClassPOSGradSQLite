@@ -1,10 +1,12 @@
 package br.com.mainpc.bdclassposgradsqlite.models;
 
+import java.io.Serializable;
+
 /**
  * Created by javab0y on 16/09/17.
  */
 
-public class User {
+public class User implements Serializable {
 
     private Integer id;
     private String name;
